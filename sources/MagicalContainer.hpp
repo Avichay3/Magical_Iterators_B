@@ -50,10 +50,14 @@ namespace ariel {
 
 
         class AscendingIterator : public BaseIterator {
+
+            private:
+                MagicalContainer& _container;
+                std::size_t _index;
             public:
                 AscendingIterator();
-                AscendingIterator(const MagicalContainer& magical);
-                AscendingIterator(const AscendingIterator& ascen_iter);
+                AscendingIterator(MagicalContainer& magical);
+                AscendingIterator(const AscendingIterator& ascen_iter_other);
                 ~AscendingIterator() = default;
 
                 AscendingIterator& operator=(const AscendingIterator& other);

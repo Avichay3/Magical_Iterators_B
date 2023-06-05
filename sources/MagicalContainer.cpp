@@ -101,12 +101,15 @@ MagicalContainer::PrimeIterator MagicalContainer::PrimeIterator::end(){
 
 
 //AscendingIterator class
-MagicalContainer::AscendingIterator::AscendingIterator(){}
+MagicalContainer::AscendingIterator::AscendingIterator(MagicalContainer& magical) :
+         _container(magical),_index(0){}
 
-MagicalContainer::AscendingIterator::AscendingIterator(const MagicalContainer& magical) :
-         BaseIterator(const_cast<MagicalContainer*>(&magical), 0) {}
-
-MagicalContainer::AscendingIterator::AscendingIterator(const AscendingIterator& ascen_iter){}
+MagicalContainer::AscendingIterator::AscendingIterator(const AscendingIterator& ascen_iter_other): 
+         _container(ascen_iter_other._container), _index(ascen_iter_other._index){
+            if (&_container != &ascen_iter_other._container){
+		        throw std::runtime_error("can't copy iterators from a different containers");
+            }    
+}
 
 
 MagicalContainer::AscendingIterator& MagicalContainer::AscendingIterator::operator=(const AscendingIterator &other){return (*this);}
