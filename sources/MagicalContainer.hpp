@@ -70,6 +70,9 @@ namespace ariel {
 
 
         class PrimeIterator : public BaseIterator {
+            private:
+                MagicalContainer& _container;
+                std::size_t _index;
             public:
                 PrimeIterator();
                 PrimeIterator(MagicalContainer& magical);
@@ -86,6 +89,9 @@ namespace ariel {
 
 
         class SideCrossIterator : public BaseIterator {
+            private:
+                MagicalContainer& _container;
+                std::size_t _index;
             public:
                 SideCrossIterator();
                 SideCrossIterator(const MagicalContainer& magical);

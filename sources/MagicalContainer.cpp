@@ -81,10 +81,17 @@ int MagicalContainer::BaseIterator::operator*(){
 //PrimeIterator class
 MagicalContainer::PrimeIterator::PrimeIterator(){}
 MagicalContainer::PrimeIterator::PrimeIterator(MagicalContainer& magical){}
-MagicalContainer::PrimeIterator::PrimeIterator(const PrimeIterator& prime_iter){}
+
+//copy constuctor
+MagicalContainer::PrimeIterator::PrimeIterator(const PrimeIterator& prime_iter_other) :
+    _container(prime_iter_other._container), _index(prime_iter_other._index){}
 
 MagicalContainer::PrimeIterator &MagicalContainer::PrimeIterator::operator=(const PrimeIterator &other){
-    return (*this);
+    if (this != &other) {
+        _container = other._container;
+        _index = other._index;
+    }
+    return *this;
 }
 MagicalContainer::PrimeIterator &MagicalContainer::PrimeIterator::operator++(){
     return (*this);
@@ -112,7 +119,15 @@ MagicalContainer::AscendingIterator::AscendingIterator(const AscendingIterator& 
 }
 
 
-MagicalContainer::AscendingIterator& MagicalContainer::AscendingIterator::operator=(const AscendingIterator &other){return (*this);}
+MagicalContainer::AscendingIterator& MagicalContainer::AscendingIterator::operator=(const AscendingIterator &other){
+        if (this != &other){
+		    if (&_container != &other._container)
+			    throw std::runtime_error("can't assign 2 iterators from a different containers");
+
+		    _index = other._index;
+        }
+	    return *this;
+}
 MagicalContainer::AscendingIterator& MagicalContainer::AscendingIterator::operator++(){return (*this);}
 
 MagicalContainer::AscendingIterator MagicalContainer::AscendingIterator::begin(){return (*this);}
