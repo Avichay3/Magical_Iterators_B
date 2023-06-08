@@ -52,11 +52,11 @@ namespace ariel {
         class AscendingIterator : public BaseIterator {
 
             private:
-                MagicalContainer& _container;
+                MagicalContainer* _container;
                 std::size_t _index;
             public:
-                AscendingIterator();
-                AscendingIterator(MagicalContainer& magical);
+               // AscendingIterator();
+                //AscendingIterator(MagicalContainer& magical);
                 AscendingIterator(const AscendingIterator& ascen_iter_other);
                 ~AscendingIterator() = default;
 
@@ -71,7 +71,7 @@ namespace ariel {
 
         class PrimeIterator : public BaseIterator {
             private:
-                MagicalContainer& _container;
+                MagicalContainer* _container;
                 std::size_t _index;
             public:
                 PrimeIterator();
@@ -90,7 +90,7 @@ namespace ariel {
 
         class SideCrossIterator : public BaseIterator {
             private:
-                MagicalContainer& _container;
+                MagicalContainer* _container;
                 std::size_t _index;
             public:
                 SideCrossIterator();

@@ -79,7 +79,8 @@ int MagicalContainer::BaseIterator::operator*(){
 
 
 //PrimeIterator class
-MagicalContainer::PrimeIterator::PrimeIterator(){}
+MagicalContainer::PrimeIterator::PrimeIterator() : _container(nullptr), _index(0){}
+    
 MagicalContainer::PrimeIterator::PrimeIterator(MagicalContainer& magical){}
 
 //copy constuctor
@@ -108,8 +109,7 @@ MagicalContainer::PrimeIterator MagicalContainer::PrimeIterator::end(){
 
 
 //AscendingIterator class
-MagicalContainer::AscendingIterator::AscendingIterator(MagicalContainer& magical) :
-         _container(magical),_index(0){}
+
 
 MagicalContainer::AscendingIterator::AscendingIterator(const AscendingIterator& ascen_iter_other): 
          _container(ascen_iter_other._container), _index(ascen_iter_other._index){
