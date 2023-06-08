@@ -1,6 +1,6 @@
 #pragma once
 
-namespace arie{
+namespace ariel{
 
     class InterfaceIterator{
     private:

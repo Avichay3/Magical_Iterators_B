@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include "InterfaceIterator.hpp"
 
 namespace ariel {
     class MagicalContainer{
@@ -28,40 +29,28 @@ namespace ariel {
 
 
         
-        class BaseIterator {
-            private:
-                MagicalContainer* _container;
-                std::size_t _position;
+        
 
-            public:
-                BaseIterator();
-                BaseIterator(MagicalContainer* container, std::size_t position);
-                BaseIterator(const BaseIterator& other);
-                ~BaseIterator() = default;
-
-
-                bool operator==(const BaseIterator& other) const;
-                bool operator!=(const BaseIterator& other) const;
-                bool operator<(const BaseIterator& other) const;
-                bool operator>(const BaseIterator& other) const;
-                
-                int operator*();
-        };
-
-
-        class AscendingIterator : public BaseIterator {
+        class AscendingIterator : public InterfaceIterator {
 
             private:
                 MagicalContainer* _container;
                 std::size_t _index;
             public:
-               // AscendingIterator();
-                //AscendingIterator(MagicalContainer& magical);
-                AscendingIterator(const AscendingIterator& ascen_iter_other);
-                ~AscendingIterator() = default;
+                AscendingIterator();
+                AscendingIterator(MagicalContainer& magical);
+                AscendingIterator(const AscendingIterator &ascen_iter_other);
+                ~AscendingIterator() override = default;
 
-                AscendingIterator& operator=(const AscendingIterator& other);
-
+                AscendingIterator &operator=(const AscendingIterator &ascen_iter_other);
+                bool operator==(const InterfaceIterator &other) const override;
+                bool operator!=(const InterfaceIterator &other) const override;
+                bool operator<(const InterfaceIterator &other) const override;
+                bool operator>(const InterfaceIterator &other) const override;
+                bool operator==(const AscendingIterator &other) const;
+                bool operator!=(const AscendingIterator &other) const;
+                bool operator<(const AscendingIterator &other) const;
+                bool operator>(const AscendingIterator &other) const;
                 AscendingIterator& operator++();
 
                 AscendingIterator begin();
@@ -69,7 +58,7 @@ namespace ariel {
         };
 
 
-        class PrimeIterator : public BaseIterator {
+        class PrimeIterator : public InterfaceIterator {
             private:
                 MagicalContainer* _container;
                 std::size_t _index;
@@ -77,10 +66,17 @@ namespace ariel {
                 PrimeIterator();
                 PrimeIterator(MagicalContainer& magical);
                 PrimeIterator(const PrimeIterator& prime_iter);
-                ~PrimeIterator() = default;
+                ~PrimeIterator() override = default;
 
-                PrimeIterator& operator=(const PrimeIterator& other);
-
+                PrimeIterator &operator=(const PrimeIterator &prime_iter_other);
+                bool operator==(const InterfaceIterator &other) const override;
+                bool operator!=(const InterfaceIterator &other) const override;
+                bool operator<(const InterfaceIterator &other) const override;
+                bool operator>(const InterfaceIterator &other) const override;
+                bool operator==(const PrimeIterator &other) const;
+                bool operator!=(const PrimeIterator &other) const;
+                bool operator<(const PrimeIterator &other) const;
+                bool operator>(const PrimeIterator &other) const;
                 PrimeIterator& operator++();
 
                 PrimeIterator begin();
@@ -88,7 +84,7 @@ namespace ariel {
         };
 
 
-        class SideCrossIterator : public BaseIterator {
+        class SideCrossIterator : public InterfaceIterator {
             private:
                 MagicalContainer* _container;
                 std::size_t _index;
@@ -96,10 +92,17 @@ namespace ariel {
                 SideCrossIterator();
                 SideCrossIterator(const MagicalContainer& magical);
                 SideCrossIterator(const SideCrossIterator& side_cross_iter);
-                ~SideCrossIterator() = default;
+                ~SideCrossIterator() override = default;
 
-                SideCrossIterator& operator=(const SideCrossIterator& other);
-
+                SideCrossIterator &operator=(const SideCrossIterator &side_cross_iter_other);
+                bool operator==(const InterfaceIterator &other) const override;
+                bool operator!=(const InterfaceIterator &other) const override;
+                bool operator<(const InterfaceIterator &other) const override;
+                bool operator>(const InterfaceIterator &other) const override;
+                bool operator==(const SideCrossIterator &other) const;
+                bool operator!=(const SideCrossIterator &other) const;
+                bool operator<(const SideCrossIterator &other) const;
+                bool operator>(const SideCrossIterator &other) const;
                 SideCrossIterator& operator++();
 
                 SideCrossIterator begin();
