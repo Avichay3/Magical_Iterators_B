@@ -64,9 +64,9 @@ namespace ariel {
                 MagicalContainer* _container;
                 std::size_t _index;
             public:
-                PrimeIterator();
-                PrimeIterator(MagicalContainer& magical);
-                PrimeIterator(const PrimeIterator& prime_iter);
+                PrimeIterator();//implemented
+                PrimeIterator(MagicalContainer& magical);//implemented
+                PrimeIterator(const PrimeIterator& prime_iter);//implemented
                 ~PrimeIterator() override = default;
 
                 PrimeIterator &operator=(const PrimeIterator &prime_iter_other);
@@ -77,8 +77,8 @@ namespace ariel {
                 bool operator==(const PrimeIterator &other) const;
                 bool operator!=(const PrimeIterator &other) const;
                 bool operator<(const PrimeIterator &other) const;
-                bool operator>(const PrimeIterator &other) const;
-                PrimeIterator& operator++();
+                bool operator>(const PrimeIterator &other) const; //implemented
+                PrimeIterator& operator++();//implemented
 
                 PrimeIterator begin();
                 PrimeIterator end();

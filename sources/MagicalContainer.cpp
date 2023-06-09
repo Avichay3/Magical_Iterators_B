@@ -113,8 +113,36 @@ MagicalContainer::PrimeIterator &MagicalContainer::PrimeIterator::operator=(cons
     }
     return *this;
 }
+
+bool MagicalContainer::PrimeIterator::operator>(const PrimeIterator &prime_iter_other) const{
+    if(_container != prime_iter_other._container){
+		throw runtime_error("Can't compare iterators from different containers");
+    }
+	if(_container == nullptr || prime_iter_other._container == nullptr){
+		throw runtime_error("One of the iterators have not been initialized");
+    }
+	return _index > prime_iter_other._index;
+}
+
+bool MagicalContainer::PrimeIterator::operator<(const PrimeIterator &prime_iter_other) const{
+    if(_container != prime_iter_other._container){
+		throw runtime_error("Can't compare iterators from different containers");
+    }
+	if(_container == nullptr || prime_iter_other._container == nullptr){
+		throw runtime_error("One of the iterators have not been initialized");
+    }
+	return _index < prime_iter_other._index;
+}
+
 MagicalContainer::PrimeIterator &MagicalContainer::PrimeIterator::operator++(){
-    return (*this);
+    if (_container == nullptr){
+		throw runtime_error("Iterator not initialized");
+    }
+	else if (_index >= _container->PrimeIter.size()){
+		throw runtime_error("Iterator out of range");
+    }    
+	++_index;
+	return *this;
 }
 
 MagicalContainer::PrimeIterator MagicalContainer::PrimeIterator::begin(){
