@@ -51,16 +51,16 @@ void MagicalContainer::addElement(int element) {
 
 void MagicalContainer::removeElement(int element) {
     auto it = TheContainer.find(element);
-    if (it == TheContainer.end())
+    if (it == TheContainer.end()){
         throw std::runtime_error("The element was not found");
-    
+    }
     //Addressing prime order 
     if (isPrime(element)) {
         auto it_prime = std::find(PrimeIter.begin(), PrimeIter.end(), &(*it));
-        if (it_prime != PrimeIter.end())
+        if (it_prime != PrimeIter.end()){
             PrimeIter.erase(it_prime);
+        }    
     }
-    
     // Addressing ascending order 
     auto iter_ascending = std::find(AscendingIter.begin(), AscendingIter.end(), &(*it));
     if (iter_ascending != AscendingIter.end()){
@@ -98,13 +98,18 @@ MagicalContainer::PrimeIterator::PrimeIterator() : _container(nullptr), _index(0
 MagicalContainer::PrimeIterator::PrimeIterator(MagicalContainer& magical){}
 
 //copy constuctor
-MagicalContainer::PrimeIterator::PrimeIterator(const PrimeIterator& prime_iter_other) :
-    _container(prime_iter_other._container), _index(prime_iter_other._index){}
+MagicalContainer::PrimeIterator::PrimeIterator(const PrimeIterator& prime_iter_other){
+    if(_container != prime_iter_other._container && _container != nullptr && prime_iter_other._container != nullptr){
+		throw runtime_error("Cannot copy iterators from different containers");
+    }    
+	_container = prime_iter_other._container;
+	_index = prime_iter_other._index;
+}    
 
-MagicalContainer::PrimeIterator &MagicalContainer::PrimeIterator::operator=(const PrimeIterator &other){
-    if (this != &other) {
-        _container = other._container;
-        _index = other._index;
+MagicalContainer::PrimeIterator &MagicalContainer::PrimeIterator::operator=(const PrimeIterator &prime_iter_other){
+    if (this != &prime_iter_other) {
+        _container = prime_iter_other._container;
+        _index = prime_iter_other._index;
     }
     return *this;
 }
