@@ -1,8 +1,8 @@
 #include "MagicalContainer.hpp"
 #include <algorithm>
 #include <stdexcept>
+#include <vector>
 using namespace std;
-
 using namespace ariel;
 
 
@@ -20,61 +20,75 @@ bool MagicalContainer::isPrime(int element){
 
 MagicalContainer::MagicalContainer(){}
 
-void MagicalContainer::addElement(int element){
-    if (std::find(TheContainer.begin(), TheContainer.end(), element) != TheContainer.end()) {
-        throw std::runtime_error("Element is already in the container");
+void MagicalContainer::addElement(int element) {
+    TheContainer.insert(element);
+    // Handle ascending order
+    std::sort(AscendingIter.begin(), AscendingIter.end(), [](int a, int b) {
+        return a < b;
+    });
+    // Handle prime order
+    if (isPrime(element)) {
+        std::sort(PrimeIter.begin(), PrimeIter.end(), [](int a, int b) {
+            return a < b;
+        });
+    }
+    // Handle sidecross order 
+    SideCrossIter.clear();
+    size_t start = 0;
+    size_t end = SideCrossIter.size() - 1;
+    while (start <= end && end != 0) {
+        SideCrossIter.push_back(SideCrossIter[start]);
+        if (start != end) {
+            SideCrossIter.push_back(SideCrossIter[end]);
+        }
+        start++;
+        end--;
+    }
+}
+
+
+
+
+void MagicalContainer::removeElement(int element) {
+    auto it = TheContainer.find(element);
+    if (it == TheContainer.end())
+        throw std::runtime_error("The element was not found");
+    
+    //Addressing prime order 
+    if (isPrime(element)) {
+        auto it_prime = std::find(PrimeIter.begin(), PrimeIter.end(), &(*it));
+        if (it_prime != PrimeIter.end())
+            PrimeIter.erase(it_prime);
+    }
+    
+    // Addressing ascending order 
+    auto iter_ascending = std::find(AscendingIter.begin(), AscendingIter.end(), &(*it));
+    if (iter_ascending != AscendingIter.end()){
+        AscendingIter.erase(iter_ascending);
+    }
+    TheContainer.erase(it); // Delete the element --> O(log n)
+    SideCrossIter.clear(); // Addressing sidecross order 
+    if(size() == 0){ // If the main container is empty, we don't need to rebuild the vector.
+    }    return;
+    SideCrossIter.reserve(TheContainer.size());
+    if(size() == 1){
+        SideCrossIter.push_back(AscendingIter[0]);
     }    
-    TheContainer.push_back(element);
-}
-
-void MagicalContainer::removeElement(int element){
-    auto it = std::find(TheContainer.begin(), TheContainer.end(), element);
-    if (it == TheContainer.end()) {
-        throw std::runtime_error("Element does not exist in the container");
-    }
-    TheContainer.erase(it);
-}
-
-int MagicalContainer::size()const{
-    return TheContainer.size();
-}
-
-
-
-//Base class iterator        
-MagicalContainer::BaseIterator::BaseIterator() : _container(nullptr), _position(0){}
-
-MagicalContainer::BaseIterator::BaseIterator(MagicalContainer* container, std::size_t position) : 
-        _container(container), _position(position){}
-
-MagicalContainer::BaseIterator::BaseIterator(const BaseIterator& base_iter):  
-        _container(base_iter._container),_position(base_iter._position){}
-
-
-bool MagicalContainer::BaseIterator::operator>(const BaseIterator &other) const{
-    return this->_position > other._position;
-}
-
-bool MagicalContainer::BaseIterator::operator<(const BaseIterator &other) const{
-    return _position < other._position;
-}
-
-bool MagicalContainer::BaseIterator::operator==(const BaseIterator &other) const{
-    return (_container == other._container) && (_position == other._position);
-}
-
-bool MagicalContainer::BaseIterator::operator!=(const BaseIterator &other) const{
-    return !(*this == other);
-}
-
-int MagicalContainer::BaseIterator::operator*(){
-    if(_container){
-        return _container->TheContainer[_position];
-    }
     else{
-        throw std::runtime_error("Pointing to a Non-valid container");
+        size_t start = 0, end = (size() - 1);
+        while (start <= end && end != 0) {
+            SideCrossIter.push_back(AscendingIter[start]);
+            if (start != end){
+                SideCrossIter.push_back(AscendingIter[end]);
+            }
+            start++;
+            end--;
+        }
     }
 }
+
+
+
 
 
 

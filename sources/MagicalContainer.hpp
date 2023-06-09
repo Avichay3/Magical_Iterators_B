@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <set>
 #include "InterfaceIterator.hpp"
 
 namespace ariel {
@@ -12,7 +13,7 @@ namespace ariel {
         that will allow traversal of elements in the MagicalContainer class in ascending order, 
         cross order, and prime numbers only, respectively."
         */
-            std::vector<int> TheContainer;
+            std::set<int> TheContainer;
             std::vector<const int*> AscendingIter;
             std::vector<const int*> PrimeIter;
             std::vector<const int*> SideCrossIter;
