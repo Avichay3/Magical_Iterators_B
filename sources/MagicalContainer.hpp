@@ -24,7 +24,7 @@ namespace ariel {
             MagicalContainer();
             void addElement(int element);
             void removeElement(int element);
-            int size() const;
+            int size() const {return TheContainer.size();}
             
         
 

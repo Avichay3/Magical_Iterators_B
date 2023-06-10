@@ -51,13 +51,13 @@ void MagicalContainer::addElement(int element) {
 
 void MagicalContainer::removeElement(int element) {
     auto it = TheContainer.find(element);
-    if (it == TheContainer.end()){
+    if(it == TheContainer.end()){
         throw std::runtime_error("The element was not found");
     }
     //Addressing prime order 
     if (isPrime(element)) {
         auto it_prime = std::find(PrimeIter.begin(), PrimeIter.end(), &(*it));
-        if (it_prime != PrimeIter.end()){
+        if(it_prime != PrimeIter.end()){
             PrimeIter.erase(it_prime);
         }    
     }
@@ -87,9 +87,6 @@ void MagicalContainer::removeElement(int element) {
         }
     }
 }
-
-
-
 
 
 
@@ -267,10 +264,237 @@ bool MagicalContainer::AscendingIterator::operator!=(const InterfaceIterator &ot
 }
 
 
-
-MagicalContainer::AscendingIterator& MagicalContainer::AscendingIterator::operator++(){
-    return (*this);
+bool MagicalContainer::AscendingIterator::operator<(const InterfaceIterator &other) const {
+	auto other_ptr = dynamic_cast<const AscendingIterator *>(&other);
+	if(other_ptr == nullptr){
+		throw std::runtime_error("Cannot compare iterators of different types");
+    }
+	if(!_container || !(other_ptr->_container)){
+		throw std::runtime_error("One of the iterators is not initialized");
+    }
+	if(_container != other_ptr->_container){
+		throw std::runtime_error("Cannot compare iterators from different containers");
+    }
+	return _index < other_ptr->_index;
 }
+
+
+bool MagicalContainer::AscendingIterator::operator>(const InterfaceIterator &other) const {
+	auto other_ptr = dynamic_cast<const AscendingIterator *>(&other);
+	if(other_ptr == nullptr){
+		throw std::runtime_error("Cannot compare iterators of different types");
+    }
+	if(!_container || !(other_ptr->_container)){
+		throw std::runtime_error("One of the iterators is not initialized");
+    }
+	if(_container != other_ptr->_container){
+		throw std::runtime_error("Cannot compare iterators from different containers");
+    }
+	return _index > other_ptr->_index;
+}
+
+
+bool MagicalContainer::AscendingIterator::operator==(const AscendingIterator &other) const {
+	// Check if either iterator is not initialized
+	if (!_container || !(other._container)){
+		throw std::runtime_error("One of the iterators is not initialized");
+    }
+	// Check if iterators belong to different containers
+	if (_container != other._container){
+		throw std::runtime_error("Cannot compare iterators from different containers");
+    }
+	// Compare the index values
+	return _index == other._index;
+}
+
+bool MagicalContainer::AscendingIterator::operator!=(const AscendingIterator &other) const {
+	// Check if either iterator is not initialized
+	if (!_container || !(other._container)){
+		throw std::runtime_error("One of the iterators is not initialized");
+    }
+	// Check if iterators belong to different containers
+	if (_container != other._container){
+		throw std::runtime_error("Cannot compare iterators from different containers");
+    }
+	// Compare the index values
+	return _index != other._index;
+}
+
+bool MagicalContainer::AscendingIterator::operator<(const AscendingIterator& other) const {
+    // Check if either iterator is not initialized
+    if (!_container || !other._container){
+        throw std::runtime_error("One of the iterators is not initialized");
+    }
+    // Check if iterators belong to different containers
+    if (_container != other._container){
+        throw std::runtime_error("Cannot compare iterators from different containers");
+    }
+    // Compare the index values
+    return _index < other._index;
+}
+
+bool MagicalContainer::AscendingIterator::operator>(const AscendingIterator& other) const {
+    // Check if either iterator is not initialized
+    if (!_container || !other._container){
+        throw std::runtime_error("One of the iterators is not initialized");
+    }
+    // Check if iterators belong to different containers
+    if (_container != other._container){
+        throw std::runtime_error("Cannot compare iterators from different containers");
+    }
+    // Compare the index values
+    return _index > other._index;
+}
+
+
+
+MagicalContainer::AscendingIterator& MagicalContainer::AscendingIterator::operator++() {
+    // Check if the iterator is not initialized
+    if (_container == nullptr){
+        throw std::runtime_error("Iterator not initialized");
+    }
+    // Check if the iterator is out of range
+    if (_index >= _container->SideCrossIter.size()){
+        throw std::runtime_error("Iterator out of range");
+    }
+    // Increment the index
+    ++_index;
+    // Return a reference to the updated iterator
+    return *this;
+}
+
+
+MagicalContainer::SideCrossIterator::SideCrossIterator(const SideCrossIterator &side_cross_iter_other) {
+	if (_container != side_cross_iter_other._container && _container != nullptr && side_cross_iter_other._container != nullptr){
+		throw runtime_error("Cannot copy iterators from different containers");
+    }
+	_container = side_cross_iter_other._container;
+	_index = side_cross_iter_other._index;
+}
+
+
+
+MagicalContainer::SideCrossIterator &MagicalContainer::SideCrossIterator::operator=(const SideCrossIterator &other) {
+	if (this != &other){
+		if (&_container != &other._container){
+			throw runtime_error("Cannot assign iterators from different containers");
+        }
+		_index = other._index;
+	}
+	return *this;
+}
+
+bool MagicalContainer::SideCrossIterator::operator==(const InterfaceIterator &other) const{
+	const SideCrossIterator *other_ptr = dynamic_cast<const SideCrossIterator *>(&other);
+	if (other_ptr == nullptr){
+		throw runtime_error("Cannot compare iterators of different types");
+    }
+	else if (_container == nullptr || other_ptr->_container == nullptr){
+		throw runtime_error("One of the iterators is not initialized");
+    }
+	else if (_container != other_ptr->_container){
+		throw runtime_error("Cannot compare iterators from different containers");
+    }
+	return _index == other_ptr->_index;
+}
+
+bool MagicalContainer::SideCrossIterator::operator!=(const InterfaceIterator &other) const{
+	const SideCrossIterator *other_ptr = dynamic_cast<const SideCrossIterator *>(&other);
+	if (other_ptr == nullptr){
+		throw runtime_error("Cannot compare iterators of different types");
+    }
+	else if (_container == nullptr || other_ptr->_container == nullptr){
+		throw std::runtime_error("One of the iterators is not initialized");
+    }
+	else if (_container != other_ptr->_container){
+		throw std::runtime_error("Cannot compare iterators from different containers");
+    }
+	return _index != other_ptr->_index;
+}
+
+bool MagicalContainer::SideCrossIterator::operator<(const InterfaceIterator &other) const{
+	const SideCrossIterator *other_ptr = dynamic_cast<const SideCrossIterator *>(&other);
+	if (other_ptr == nullptr){
+		throw runtime_error("Cannot compare iterators of different types");
+    }
+	else if (_container == nullptr || other_ptr->_container == nullptr){
+		throw runtime_error("One of the iterators is not initialized");
+    }
+	else if (_container != other_ptr->_container){
+		throw runtime_error("Cannot compare iterators from different containers");
+    }
+	return _index < other_ptr->_index;
+}
+
+bool MagicalContainer::SideCrossIterator::operator>(const InterfaceIterator &other) const{
+	const SideCrossIterator *other_ptr = dynamic_cast<const SideCrossIterator *>(&other);
+	if (other_ptr == nullptr){
+		throw runtime_error("Cannot compare iterators of different types");
+    }
+	else if (_container == nullptr || other_ptr->_container == nullptr){
+		throw runtime_error("One of the iterators is not initialized");
+    }
+	else if (_container != other_ptr->_container){
+		throw runtime_error("Cannot compare iterators from different containers");
+    }
+	return _index > other_ptr->_index;
+}
+
+
+bool MagicalContainer::SideCrossIterator::operator==(const SideCrossIterator& other) const{
+    // Check if either iterator is not initialized
+    if (_container == nullptr || other._container == nullptr){
+        throw std::runtime_error("One of the iterators is not initialized");
+    }
+    // Check if iterators belong to different containers
+    if (_container != other._container){
+        throw std::runtime_error("Cannot compare iterators from different containers");
+    }
+    // Compare the index values
+    return _index == other._index;
+}
+
+bool MagicalContainer::SideCrossIterator::operator!=(const SideCrossIterator& other) const{
+    // Check if either iterator is not initialized
+    if (_container == nullptr || other._container == nullptr){
+        throw std::runtime_error("One of the iterators is not initialized");
+    }
+    // Check if iterators belong to different containers
+    if (_container != other._container){
+        throw std::runtime_error("Cannot compare iterators from different containers");
+    }
+    // Compare the index values
+    return _index != other._index;
+}
+
+bool MagicalContainer::SideCrossIterator::operator<(const SideCrossIterator& other) const {
+    // Check if either iterator is not initialized
+    if (_container == nullptr || other._container == nullptr){
+        throw std::runtime_error("One of the iterators is not initialized");
+    }
+    // Check if iterators belong to different containers
+    if (_container != other._container){
+        throw std::runtime_error("Cannot compare iterators from different containers");
+    }
+    // Compare the index values
+    return _index < other._index;
+}
+
+bool MagicalContainer::SideCrossIterator::operator>(const SideCrossIterator& other) const {
+    // Check if either iterator is not initialized
+    if (_container == nullptr || other._container == nullptr){
+        throw std::runtime_error("One of the iterators is not initialized");
+    }
+    // Check if iterators belong to different containers
+    if (_container != other._container){
+        throw std::runtime_error("Cannot compare iterators from different containers");
+    }
+    // Compare the index values
+    return _index > other._index;
+}
+
+
+
 
 MagicalContainer::AscendingIterator MagicalContainer::AscendingIterator::begin(){return (*this);}
 MagicalContainer::AscendingIterator MagicalContainer::AscendingIterator::end(){
