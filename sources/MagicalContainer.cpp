@@ -383,12 +383,15 @@ bool MagicalContainer::PrimeIterator::operator!=(const InterfaceIterator& Inter_
 
 
 
-MagicalContainer::PrimeIterator &MagicalContainer::PrimeIterator::operator=(const PrimeIterator &prime_iter_other){
-    if (this != &prime_iter_other) {
-        _container = prime_iter_other._container;
-        _index = prime_iter_other._index;
-    }
-    return *this;
+MagicalContainer::PrimeIterator &MagicalContainer::PrimeIterator::operator=(const PrimeIterator &other) {
+	if (this != &other){
+		if (_container != other._container && _container != nullptr && other._container != nullptr){
+			throw std::runtime_error("Cannot assign iterators from different containers");
+		}
+		_container = other._container;
+		_index = other._index;
+	}
+	return *this;
 }
 
 bool MagicalContainer::PrimeIterator::operator>(const PrimeIterator &prime_iter_other) const{
