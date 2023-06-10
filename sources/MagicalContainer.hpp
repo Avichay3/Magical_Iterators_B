@@ -71,7 +71,7 @@ namespace ariel {
                 std::size_t _index;
             public:
                 PrimeIterator();//implemented
-                PrimeIterator(MagicalContainer& magical);//implemented
+                PrimeIterator(MagicalContainer &container): _container(&container), _index(0) {}
                 PrimeIterator(const PrimeIterator& prime_iter);//implemented
                 PrimeIterator(MagicalContainer *container, std::size_t index): _container(container), _index(index){} //inline implement
                 ~PrimeIterator() override = default;
@@ -91,7 +91,7 @@ namespace ariel {
                 PrimeIterator begin(){
                     return PrimeIterator(_container, 0);
                 }
-                PrimeIterator end(){
+                PrimeIterator end() const{
                     return PrimeIterator(_container, _container->PrimeIter.size());
                 }
         };
@@ -123,7 +123,7 @@ namespace ariel {
                 SideCrossIterator begin(){
                     return SideCrossIterator(_container, 0);
                 }
-                SideCrossIterator end(){
+                SideCrossIterator end() const{
                     return SideCrossIterator(_container, _container->SideCrossIter.size());
                 }
         };

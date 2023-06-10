@@ -299,8 +299,6 @@ int MagicalContainer::AscendingIterator::operator*() const {
 //Prime Iterator class
 MagicalContainer::PrimeIterator::PrimeIterator() : _container(nullptr), _index(0){}
     
-MagicalContainer::PrimeIterator::PrimeIterator(MagicalContainer& magical){}
-
 
 //copy constuctor
 MagicalContainer::PrimeIterator::PrimeIterator(const PrimeIterator& prime_iter_other){
