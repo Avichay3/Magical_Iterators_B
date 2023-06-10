@@ -38,9 +38,10 @@ namespace ariel {
                 MagicalContainer* _container;
                 std::size_t _index;
             public:
-                AscendingIterator();
-                AscendingIterator(MagicalContainer& magical);
+                AscendingIterator(): _container(nullptr), _index(0){} //inline implement
+                AscendingIterator(MagicalContainer& container): AscendingIterator(&container, 0){} //inline implement
                 AscendingIterator(const AscendingIterator &ascen_iter_other);
+                AscendingIterator (MagicalContainer *container, size_t index): _container(container), _index(index){}//inline implement
                 ~AscendingIterator() override = default;
 
                 AscendingIterator &operator=(const AscendingIterator &ascen_iter_other);
@@ -67,6 +68,7 @@ namespace ariel {
                 PrimeIterator();//implemented
                 PrimeIterator(MagicalContainer& magical);//implemented
                 PrimeIterator(const PrimeIterator& prime_iter);//implemented
+                PrimeIterator(MagicalContainer *container, size_t index): _container(container), _index(index){} //inline implement
                 ~PrimeIterator() override = default;
 
                 PrimeIterator &operator=(const PrimeIterator &prime_iter_other);
@@ -93,6 +95,7 @@ namespace ariel {
                 SideCrossIterator();
                 SideCrossIterator(const MagicalContainer& magical);
                 SideCrossIterator(const SideCrossIterator& side_cross_iter);
+                SideCrossIterator(MagicalContainer *container, size_t index): _container(container), _index(index){} //inline implement
                 ~SideCrossIterator() override = default;
 
                 SideCrossIterator &operator=(const SideCrossIterator &side_cross_iter_other);

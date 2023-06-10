@@ -90,129 +90,6 @@ void MagicalContainer::removeElement(int element) {
 
 
 
-//PrimeIterator class
-MagicalContainer::PrimeIterator::PrimeIterator() : _container(nullptr), _index(0){}
-    
-MagicalContainer::PrimeIterator::PrimeIterator(MagicalContainer& magical){}
-
-//copy constuctor
-MagicalContainer::PrimeIterator::PrimeIterator(const PrimeIterator& prime_iter_other){
-    if(_container != prime_iter_other._container && _container != nullptr && prime_iter_other._container != nullptr){
-		throw std::runtime_error("Cannot copy iterators from different containers");
-    }    
-	_container = prime_iter_other._container;
-	_index = prime_iter_other._index;
-}    
-
-
-
-bool MagicalContainer::PrimeIterator::operator<(const InterfaceIterator &Inter_iter_other) const {
-	const PrimeIterator *ptr_other = dynamic_cast<const PrimeIterator *>(&Inter_iter_other);
-    if(_container == nullptr || ptr_other->_container == nullptr){
-		throw std::runtime_error("One of the iterators is not initialized");
-    }
-	if(ptr_other == nullptr){
-		throw std::runtime_error("Cannot compare iterators of different types");
-    }
-	else if(_container != ptr_other->_container){
-		throw std::runtime_error("Cannot compare iterators from different containers");
-    }
-	return _index < ptr_other->_index;
-}
-
-
-
-bool MagicalContainer::PrimeIterator::operator!=(const InterfaceIterator& Inter_iter_other) const{
-    try{
-        const PrimeIterator& otherPrimeIter = dynamic_cast<const PrimeIterator&>(Inter_iter_other);
-        if(_container == nullptr) {
-            if (otherPrimeIter._container == nullptr){
-                throw std::runtime_error("Both iterators have not initialized");
-            }
-            else
-                throw std::runtime_error("The current iterator has not initialized");
-        }else if (otherPrimeIter._container == nullptr){
-            throw std::runtime_error("The other iterator is not initialized");
-        }
-        if (_container != otherPrimeIter._container)
-            throw std::runtime_error("Can't compare iterators from different containers");
-
-        return (_index != otherPrimeIter._index);
-    } 
-    catch (const std::bad_cast&){  // catch case where cast is not good
-        throw std::runtime_error("Can't compare iterators of different types");
-    }
-}
-
-
-
-
-
-MagicalContainer::PrimeIterator &MagicalContainer::PrimeIterator::operator=(const PrimeIterator &prime_iter_other){
-    if (this != &prime_iter_other) {
-        _container = prime_iter_other._container;
-        _index = prime_iter_other._index;
-    }
-    return *this;
-}
-
-bool MagicalContainer::PrimeIterator::operator>(const PrimeIterator &prime_iter_other) const{
-    if(_container != prime_iter_other._container){
-		throw std::runtime_error("Can't compare iterators from different containers");
-    }
-	if(_container == nullptr || prime_iter_other._container == nullptr){
-		throw std::runtime_error("One of the iterators have not been initialized");
-    }
-	return _index > prime_iter_other._index;
-}
-
-bool MagicalContainer::PrimeIterator::operator<(const PrimeIterator &prime_iter_other) const{
-    if(_container != prime_iter_other._container){
-		throw std::runtime_error("Can't compare iterators from different containers");
-    }
-	if(_container == nullptr || prime_iter_other._container == nullptr){
-		throw std::runtime_error("One of the iterators have not been initialized");
-    }
-	return _index < prime_iter_other._index;
-}
-
-MagicalContainer::PrimeIterator &MagicalContainer::PrimeIterator::operator++(){
-    if (_container == nullptr){
-		throw std::runtime_error("Iterator not initialized");
-    }
-	else if (_index >= _container->PrimeIter.size()){
-		throw std::runtime_error("Iterator out of range");
-    }    
-	++_index;
-	return *this;
-}
-
-bool MagicalContainer::PrimeIterator::operator!=(const PrimeIterator& prime_iter_other) const{
-    if (!_container){
-        if (prime_iter_other._container == nullptr){
-            throw std::runtime_error("Both iterators are not initialized");
-        }    
-        else{
-            throw std::runtime_error("Current iterator is not initialized");
-        }
-    }else if (prime_iter_other._container == nullptr) {
-        throw std::runtime_error("Other iterator is not initialized");
-    }
-
-    if (_container != prime_iter_other._container)
-        throw std::runtime_error("Cannot compare iterators from different containers");
-    return (_index != prime_iter_other._index);
-}
-
-MagicalContainer::PrimeIterator MagicalContainer::PrimeIterator::begin(){
-    return (*this);
-}
-MagicalContainer::PrimeIterator MagicalContainer::PrimeIterator::end(){
-    return (*this);
-}
-
-
-
 
 //AscendingIterator class
 MagicalContainer::AscendingIterator::AscendingIterator(const AscendingIterator& ascen_iter_other): 
@@ -364,6 +241,149 @@ MagicalContainer::AscendingIterator& MagicalContainer::AscendingIterator::operat
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+//Prime Iterator class
+MagicalContainer::PrimeIterator::PrimeIterator() : _container(nullptr), _index(0){}
+    
+MagicalContainer::PrimeIterator::PrimeIterator(MagicalContainer& magical){}
+
+
+//copy constuctor
+MagicalContainer::PrimeIterator::PrimeIterator(const PrimeIterator& prime_iter_other){
+    if(_container != prime_iter_other._container && _container != nullptr && prime_iter_other._container != nullptr){
+		throw std::runtime_error("Cannot copy iterators from different containers");
+    }    
+	_container = prime_iter_other._container;
+	_index = prime_iter_other._index;
+}    
+
+
+
+bool MagicalContainer::PrimeIterator::operator<(const InterfaceIterator &Inter_iter_other) const {
+	const PrimeIterator *ptr_other = dynamic_cast<const PrimeIterator *>(&Inter_iter_other);
+    if(_container == nullptr || ptr_other->_container == nullptr){
+		throw std::runtime_error("One of the iterators is not initialized");
+    }
+	if(ptr_other == nullptr){
+		throw std::runtime_error("Cannot compare iterators of different types");
+    }
+	else if(_container != ptr_other->_container){
+		throw std::runtime_error("Cannot compare iterators from different containers");
+    }
+	return _index < ptr_other->_index;
+}
+
+
+
+bool MagicalContainer::PrimeIterator::operator!=(const InterfaceIterator& Inter_iter_other) const{
+    try{
+        const PrimeIterator& otherPrimeIter = dynamic_cast<const PrimeIterator&>(Inter_iter_other);
+        if(_container == nullptr) {
+            if (otherPrimeIter._container == nullptr){
+                throw std::runtime_error("Both iterators have not initialized");
+            }
+            else
+                throw std::runtime_error("The current iterator has not initialized");
+        }else if (otherPrimeIter._container == nullptr){
+            throw std::runtime_error("The other iterator is not initialized");
+        }
+        if (_container != otherPrimeIter._container)
+            throw std::runtime_error("Can't compare iterators from different containers");
+
+        return (_index != otherPrimeIter._index);
+    } 
+    catch (const std::bad_cast&){  // catch case where cast is not good
+        throw std::runtime_error("Can't compare iterators of different types");
+    }
+}
+
+
+
+MagicalContainer::PrimeIterator &MagicalContainer::PrimeIterator::operator=(const PrimeIterator &prime_iter_other){
+    if (this != &prime_iter_other) {
+        _container = prime_iter_other._container;
+        _index = prime_iter_other._index;
+    }
+    return *this;
+}
+
+bool MagicalContainer::PrimeIterator::operator>(const PrimeIterator &prime_iter_other) const{
+    if(_container != prime_iter_other._container){
+		throw std::runtime_error("Can't compare iterators from different containers");
+    }
+	if(_container == nullptr || prime_iter_other._container == nullptr){
+		throw std::runtime_error("One of the iterators have not been initialized");
+    }
+	return _index > prime_iter_other._index;
+}
+
+bool MagicalContainer::PrimeIterator::operator<(const PrimeIterator &prime_iter_other) const{
+    if(_container != prime_iter_other._container){
+		throw std::runtime_error("Can't compare iterators from different containers");
+    }
+	if(_container == nullptr || prime_iter_other._container == nullptr){
+		throw std::runtime_error("One of the iterators have not been initialized");
+    }
+	return _index < prime_iter_other._index;
+}
+
+MagicalContainer::PrimeIterator &MagicalContainer::PrimeIterator::operator++(){
+    if (_container == nullptr){
+		throw std::runtime_error("Iterator not initialized");
+    }
+	else if (_index >= _container->PrimeIter.size()){
+		throw std::runtime_error("Iterator out of range");
+    }    
+	++_index;
+	return *this;
+}
+
+bool MagicalContainer::PrimeIterator::operator!=(const PrimeIterator& prime_iter_other) const{
+    if (!_container){
+        if (prime_iter_other._container == nullptr){
+            throw std::runtime_error("Both iterators are not initialized");
+        }    
+        else{
+            throw std::runtime_error("Current iterator is not initialized");
+        }
+    }else if (prime_iter_other._container == nullptr) {
+        throw std::runtime_error("Other iterator is not initialized");
+    }
+
+    if (_container != prime_iter_other._container)
+        throw std::runtime_error("Cannot compare iterators from different containers");
+    return (_index != prime_iter_other._index);
+}
+
+MagicalContainer::PrimeIterator MagicalContainer::PrimeIterator::begin(){
+     return PrimeIterator(_container, 0);
+}
+
+MagicalContainer::PrimeIterator MagicalContainer::PrimeIterator::end(){
+    return PrimeIterator(_container, _container->PrimeIter.size());
+}
+
+
+
+
+
+
+
+
+
+
+
+// Side Cross Iterator class
 MagicalContainer::SideCrossIterator::SideCrossIterator(const SideCrossIterator &side_cross_iter_other) {
 	if (_container != side_cross_iter_other._container && _container != nullptr && side_cross_iter_other._container != nullptr){
 		throw runtime_error("Cannot copy iterators from different containers");
