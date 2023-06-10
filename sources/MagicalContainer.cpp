@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include <vector>
+#include <stdexcept>
 using namespace std;
 using namespace ariel;
 
@@ -21,71 +22,102 @@ bool MagicalContainer::isPrime(int element){
 MagicalContainer::MagicalContainer(){}
 
 void MagicalContainer::addElement(int element) {
-    TheContainer.insert(element);
-    // Handle ascending order
-    std::sort(AscendingIter.begin(), AscendingIter.end(), [](int a, int b) {
-        return a < b;
-    });
-    // Handle prime order
-    if(isPrime(element)) {
-        std::sort(PrimeIter.begin(), PrimeIter.end(), [](int a, int b) {
-            return a < b;
-        });
-    }
-    // Handle sidecross order 
-    SideCrossIter.clear();
-    size_t start = 0;
-    size_t end = SideCrossIter.size() - 1;
-    while (start <= end && end != 0) {
-        SideCrossIter.push_back(SideCrossIter[start]);
-        if (start != end) {
-            SideCrossIter.push_back(SideCrossIter[end]);
-        }
-        start++;
-        end--;
-    }
+	auto in = TheContainer.insert(element);
+
+	if (in.second)
+	{
+		// Handle prime order - O(n) in this case, as we need to find the correct place to insert the element.
+		if (isPrime(element))
+		{
+			auto index_to_insert = lower_bound(PrimeIter.begin(), PrimeIter.end(), &(*in.first), [](const int *a, const int *b) {
+				return *a < *b;
+			});
+
+			PrimeIter.insert(index_to_insert, &(*in.first));
+		}
+
+		// Handle ascending order - O(n) in this case, as we need to find the correct place to insert the element.
+		auto index_to_insert = lower_bound(AscendingIter.begin(), AscendingIter.end(), &(*in.first), [](const int *a, const int *b) {
+			return *a < *b;
+		});
+
+		AscendingIter.insert(index_to_insert, &(*in.first));
+
+		// Handle sidecross order - O(n) in this case, as we need to rebuild the vector (Easier than reordering it).
+		SideCrossIter.clear();
+
+		if (size() == 1)
+			SideCrossIter.push_back(AscendingIter.front());
+
+		else
+		{
+			size_t start = 0, end = (size_t)(size() - 1);
+
+			while (start <= end && end != 0)
+			{
+				SideCrossIter.push_back(AscendingIter.at(start));
+
+				if (start != end)
+					SideCrossIter.push_back(AscendingIter.at(end));
+
+				start++;
+				end--;
+			}
+		}
+	}
 }
 
 
 
 
+
 void MagicalContainer::removeElement(int element) {
-    auto it = TheContainer.find(element);
-    if(it == TheContainer.end()){
-        throw std::runtime_error("The element was not found");
-    }
-    //Addressing prime order 
-    if (isPrime(element)) {
-        auto it_prime = std::find(PrimeIter.begin(), PrimeIter.end(), &(*it));
-        if(it_prime != PrimeIter.end()){
-            PrimeIter.erase(it_prime);
-        }    
-    }
-    // Addressing ascending order 
-    auto iter_ascending = std::find(AscendingIter.begin(), AscendingIter.end(), &(*it));
-    if(iter_ascending != AscendingIter.end()){
-        AscendingIter.erase(iter_ascending);
-    }
-    TheContainer.erase(it); // Delete the element --> O(log n)
-    SideCrossIter.clear(); // Addressing sidecross order 
-    if(size() == 0){ // If the main container is empty, we don't need to rebuild the vector.
-    }    return;
-    SideCrossIter.reserve(TheContainer.size());
-    if(size() == 1){
-        SideCrossIter.push_back(AscendingIter[0]);
-    }    
-    else{
-        size_t start = 0;
-        int end = (size() - 1);
-        while (start <= end && end != 0) {
-            SideCrossIter.push_back(AscendingIter[start]);
-            if (start != end){
-                SideCrossIter.push_back(AscendingIter[end]);
-            }
-            start++;
-            end--;
-        }
-    }
+	auto it = TheContainer.find(element);
+
+	if (it == TheContainer.end())
+		throw runtime_error("Element not found");
+
+	// Handle prime order - O(n) in this case, as we need to find the element in the vector to remove it.
+	if (isPrime(element))
+	{
+		auto it_prime = find(PrimeIter.begin(), PrimeIter.end(), &(*it));
+		PrimeIter.erase(it_prime);
+	}
+
+	// Handle ascending order - O(n) in this case, as we need to find the element in the vector to remove it.
+	auto it_ascending = find(AscendingIter.begin(), AscendingIter.end(), &(*it));
+	AscendingIter.erase(it_ascending);
+
+	// Delete the element - O(logn)
+	TheContainer.erase(element);
+
+	// Handle sidecross order - O(n) in this case, as we need to rebuild the vector (Easier than reordering it).
+	SideCrossIter.clear();
+
+	// Incase the main container is empty, we don't need to rebuild the vector.
+	if (size() == 0)
+		return;
+
+	SideCrossIter.reserve(TheContainer.size());
+
+	if (size() == 1)
+		SideCrossIter.push_back(AscendingIter.at(0));
+
+	else
+	{
+		size_t start = 0, end = (size_t)(size() - 1);
+
+		while (start <= end && end != 0)
+		{
+			SideCrossIter.push_back(AscendingIter.at(start));
+
+			if (start != end)
+				SideCrossIter.push_back(AscendingIter.at(end));
+
+			start++;
+			end--;
+		}
+	}
 }
 
 
@@ -239,6 +271,18 @@ MagicalContainer::AscendingIterator& MagicalContainer::AscendingIterator::operat
     // Return a reference to the updated iterator
     return *this;
 }
+
+
+int MagicalContainer::AscendingIterator::operator*() const {
+	if (_container == nullptr){
+		throw std::runtime_error("Iterator not initialized");
+    }
+	else if (_index >= _container->AscendingIter.size()){
+		throw std::runtime_error("Iterator out of range");
+    }
+	return *(_container->AscendingIter.at(_index));
+}
+
 
 
 
@@ -409,13 +453,19 @@ bool MagicalContainer::PrimeIterator::operator!=(const PrimeIterator& prime_iter
     return (_index != prime_iter_other._index);
 }
 
-MagicalContainer::PrimeIterator MagicalContainer::PrimeIterator::begin(){
-     return PrimeIterator(_container, 0);
+
+int MagicalContainer::PrimeIterator::operator*() const{
+	if (_container == nullptr){
+		throw std::runtime_error("Iterator not initialized");
+    }
+	else if (_index >= _container->PrimeIter.size()){
+		throw runtime_error("Iterator out of range");
+    }
+	return *(_container->PrimeIter.at(_index));
 }
 
-MagicalContainer::PrimeIterator MagicalContainer::PrimeIterator::end(){
-    return PrimeIterator(_container, _container->PrimeIter.size());
-}
+
+
 
 
 
@@ -558,12 +608,34 @@ bool MagicalContainer::SideCrossIterator::operator>(const SideCrossIterator& oth
 }
 
 
-
-
-MagicalContainer::AscendingIterator MagicalContainer::AscendingIterator::begin(){return (*this);}
-MagicalContainer::AscendingIterator MagicalContainer::AscendingIterator::end(){
-    return (*this);
+MagicalContainer::SideCrossIterator &MagicalContainer::SideCrossIterator::operator++() {
+	if(_container == nullptr){
+		throw std::runtime_error("Iterator not initialized");
+    }
+	else if(_index >= _container->SideCrossIter.size()){
+		throw std::runtime_error("Iterator out of range");
+    }
+	++_index;
+	return *this;
 }
+
+
+int MagicalContainer::SideCrossIterator::operator*() const{
+	if (_container == nullptr){
+		throw std::runtime_error("Iterator not initialized");
+    }
+	else if (_index >= _container->AscendingIter.size()){
+		throw std::runtime_error("Iterator out of range");
+    }
+	return *(_container->SideCrossIter.at(_index));
+}
+
+
+
+
+
+
+
 
 
 

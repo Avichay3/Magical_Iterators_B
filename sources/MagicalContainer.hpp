@@ -41,7 +41,7 @@ namespace ariel {
                 AscendingIterator(): _container(nullptr), _index(0){} //inline implement
                 AscendingIterator(MagicalContainer& container): AscendingIterator(&container, 0){} //inline implement
                 AscendingIterator(const AscendingIterator &ascen_iter_other);
-                AscendingIterator (MagicalContainer *container, size_t index): _container(container), _index(index){}//inline implement
+                AscendingIterator (MagicalContainer *container, std::size_t index): _container(container), _index(index){}//inline implement
                 ~AscendingIterator() override = default;
 
                 AscendingIterator &operator=(const AscendingIterator &ascen_iter_other);
@@ -53,10 +53,15 @@ namespace ariel {
                 bool operator!=(const AscendingIterator &other) const;
                 bool operator<(const AscendingIterator &other) const;
                 bool operator>(const AscendingIterator &other) const;
+                int operator*() const;
                 AscendingIterator& operator++();
 
-                AscendingIterator begin();
-                AscendingIterator end();
+                AscendingIterator begin() {//inline implementation
+					return AscendingIterator(_container, 0);
+				}
+                AscendingIterator end() const { //inline implementation
+					return AscendingIterator(_container, _container->AscendingIter.size());
+				}
         };
 
 
@@ -68,7 +73,7 @@ namespace ariel {
                 PrimeIterator();//implemented
                 PrimeIterator(MagicalContainer& magical);//implemented
                 PrimeIterator(const PrimeIterator& prime_iter);//implemented
-                PrimeIterator(MagicalContainer *container, size_t index): _container(container), _index(index){} //inline implement
+                PrimeIterator(MagicalContainer *container, std::size_t index): _container(container), _index(index){} //inline implement
                 ~PrimeIterator() override = default;
 
                 PrimeIterator &operator=(const PrimeIterator &prime_iter_other);
@@ -81,9 +86,14 @@ namespace ariel {
                 bool operator<(const PrimeIterator &other) const;
                 bool operator>(const PrimeIterator &other) const; //implemented
                 PrimeIterator& operator++();//implemented
+                int operator*() const;
 
-                PrimeIterator begin();
-                PrimeIterator end();
+                PrimeIterator begin(){
+                    return PrimeIterator(_container, 0);
+                }
+                PrimeIterator end(){
+                    return PrimeIterator(_container, _container->PrimeIter.size());
+                }
         };
 
 
@@ -92,10 +102,10 @@ namespace ariel {
                 MagicalContainer* _container;
                 std::size_t _index;
             public:
-                SideCrossIterator();
-                SideCrossIterator(const MagicalContainer& magical);
+                SideCrossIterator(): _container(nullptr), _index(0) {}//inline implementation
+                SideCrossIterator(MagicalContainer& magical): _container(&magical), _index(0){}//inline implementation
                 SideCrossIterator(const SideCrossIterator& side_cross_iter);
-                SideCrossIterator(MagicalContainer *container, size_t index): _container(container), _index(index){} //inline implement
+                SideCrossIterator(MagicalContainer *container, std::size_t index): _container(container), _index(index){} //inline implement
                 ~SideCrossIterator() override = default;
 
                 SideCrossIterator &operator=(const SideCrossIterator &side_cross_iter_other);
@@ -108,9 +118,14 @@ namespace ariel {
                 bool operator<(const SideCrossIterator &other) const;
                 bool operator>(const SideCrossIterator &other) const;
                 SideCrossIterator& operator++();
+                int operator*() const;
 
-                SideCrossIterator begin();
-                SideCrossIterator end();
+                SideCrossIterator begin(){
+                    return SideCrossIterator(_container, 0);
+                }
+                SideCrossIterator end(){
+                    return SideCrossIterator(_container, _container->SideCrossIter.size());
+                }
         };
 
     };
