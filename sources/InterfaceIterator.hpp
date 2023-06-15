@@ -7,7 +7,7 @@ namespace ariel{
         /* There is no private data because this is an "interface" for the iterators*/
 
     public:
-    /*defines the common methods and operators that all iterators derived from this interface should implement.*/
+    /*defines the common methods and operators that all iterators derived from this class should implement.*/
         InterfaceIterator() = default;
 
         //set to default, meaning the compiler will generate the destructor implementation

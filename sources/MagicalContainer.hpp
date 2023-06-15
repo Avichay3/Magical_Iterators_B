@@ -39,18 +39,21 @@ namespace ariel {
 
         
         
+        /*now i will create a 3 classes, all inherit from the InterfaceIterator*/
 
-        class AscendingIterator : public InterfaceIterator {
+        //represents an iterator that allows traversal of elements in ascending order
+        class AscendingIterator : public InterfaceIterator { 
 
             private:
-                MagicalContainer* _container;
-                std::size_t _index;
+                MagicalContainer* _container; //pointer to magicalContainer object
+                std::size_t _index; //index indicating the current position of the iterator.
             public:
                 AscendingIterator(): _container(nullptr), _index(0){} //inline implement
                 AscendingIterator(MagicalContainer& container): AscendingIterator(&container, 0){} //inline implement
-                AscendingIterator(const AscendingIterator &ascen_iter_other);
+                AscendingIterator(const AscendingIterator &ascen_iter_other);//copy constructor
+                //constructor that takes pointer to magicalContainer and index
                 AscendingIterator (MagicalContainer *container, std::size_t index): _container(container), _index(index){}//inline implement
-                ~AscendingIterator() override = default;
+                ~AscendingIterator() override = default; //destructor
 
                 AscendingIterator &operator=(const AscendingIterator &ascen_iter_other);
                 bool operator==(const InterfaceIterator &other) const override;
