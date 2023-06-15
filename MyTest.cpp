@@ -107,7 +107,7 @@ TEST_CASE("Test 5 - Check iterators comparison") {
 	CHECK_GT(ascIter1, ascIter2); //check if ascIter1 greater than ascIter2
 	CHECK_LT(ascIter2, ascIter1); //check if ascIter2 lower than ascIter1
 
-    /*same thing for the rest lines*/
+    /*same thing for the rest lines of code*/
 
 	CHECK_NE(crossIter1, crossIter2);
 	CHECK_GT(crossIter1, crossIter2);
