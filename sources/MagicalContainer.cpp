@@ -42,18 +42,22 @@ void MagicalContainer::addElement(int element) {
 			return *a < *b;
 		});
 		AscendingIter.insert(index_to_insert, &(*in.first)); //insert the element at the index we want
-		// handle sidecross order,in this case, we need to rebuild the vector (Easier than reordering it).
-		SideCrossIter.clear();
-		if (size() == 1)
+		// handle sidecross order,in this case, we need to rebuild the vector.
+		SideCrossIter.clear(); // remove all the elements
+		// if that's the case, it means there is no need to perform any additional steps to build the side cross iterator
+		// the single element from the side cross is added directly using push back
+		if (size() == 1){ 
 			SideCrossIter.push_back(AscendingIter.front());
+		}
 
-		else{
-			size_t start = 0, end = (size_t)(size() - 1);
-			while (start <= end && end != 0){
+		else{ //rebuild the vector
+			size_t start = 0;
+			size_t end = (size() - 1);
+			while (start <= end && end != 0){ //ensures that the loop terminates when the indices meet in the middle
 				SideCrossIter.push_back(AscendingIter.at(start));
-				if (start != end)
+				if (start != end){
 					SideCrossIter.push_back(AscendingIter.at(end));
-
+				}
 				start++;
 				end--;
 			}
@@ -81,10 +85,10 @@ void MagicalContainer::removeElement(int element) {
 	auto it_ascending = find(AscendingIter.begin(), AscendingIter.end(), &(*it));
 	AscendingIter.erase(it_ascending);
 
-	// Delete the element - O(logn)
+	// delete the element 
 	TheContainer.erase(element);
 
-	// Handle sidecross order - O(n) in this case, as we need to rebuild the vector (Easier than reordering it).
+	// handle sidecross order,in this case, as we need to rebuild the vector.
 	SideCrossIter.clear();
 
 	// Incase the main container is empty, we don't need to rebuild the vector.
