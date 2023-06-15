@@ -43,27 +43,27 @@ TEST_CASE("Test 2 - Iterator Sorted") {
 	CHECK_EQ(*ascIter, 2); //checking if the first element returned by the pointer to iterator is 2.
 	++ascIter; // point to the next.
 	CHECK_EQ(*ascIter, 3); //checking if it pointer now point to 3 after promoting the pointer.
-	++ascIter; // point to the next
-	CHECK_EQ(*ascIter, 4); //checking if it pointer now point to 4 after promoting the pointer
-	++ascIter; // point to the next
-	CHECK_EQ(ascIter, ascIter.end());//check if iterator has reached its end
+	++ascIter; // point to the next.
+	CHECK_EQ(*ascIter, 4); //checking if it pointer now point to 4 after promoting the pointer.
+	++ascIter; // point to the next.
+	CHECK_EQ(ascIter, ascIter.end());//check if iterator has reached the end.
 }
 
 TEST_CASE("Test 3 - Iterator SideCross") {
 	MagicalContainer mc; //creating empty instance of MagicalContainer.
-	mc.addElement(3);//add 3.
-	mc.addElement(4);//add 4.
-	mc.addElement(2);// add 2.
+	mc.addElement(3); //add 3.
+	mc.addElement(4); //add 4.
+	mc.addElement(2); // add 2.
 
 	MagicalContainer::SideCrossIterator crossIter(mc);
 
 	CHECK_EQ(*crossIter, 2);//checking if the first element returned by the pointer to iterator is 2.
-	++crossIter;            // point to the next.
-	CHECK_EQ(*crossIter, 4);
+	++crossIter; // point to the next.
+	CHECK_EQ(*crossIter, 4);//checking if it pointer now point to 4 after promoting the pointer.
+	++crossIter;// point to the next.
+	CHECK_EQ(*crossIter, 3);//checking if it pointer now point to 3 after promoting the pointer.
 	++crossIter;
-	CHECK_EQ(*crossIter, 3);
-	++crossIter;
-	CHECK_EQ(crossIter, crossIter.end());
+	CHECK_EQ(crossIter, crossIter.end());//check if iterator has reached the end.
 }
 
 TEST_CASE("Test 4 - Iterator Prime") {
@@ -74,10 +74,10 @@ TEST_CASE("Test 4 - Iterator Prime") {
 
 	MagicalContainer::PrimeIterator primesIter(mc);
 
-	CHECK_EQ(*primesIter, 2);
-	++primesIter;
+	CHECK_EQ(*primesIter, 2);//checking if the first element returned by the pointer to iterator is 2.
+	++primesIter; // point to the next.
 	CHECK_EQ(*primesIter, 3);
-	++primesIter;
+	++primesIter; // point to the next.
 	CHECK_EQ(primesIter, primesIter.end());
 }
 
