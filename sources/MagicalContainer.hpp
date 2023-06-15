@@ -13,6 +13,12 @@ namespace ariel {
         that will allow traversal of elements in the MagicalContainer class in ascending order, 
         cross order, and prime numbers only, respectively."
         */
+
+
+            /*Container that stores unique elements(no duplicate values), because this is a set.
+              The elements in a set are always sorted in ascending order by default.
+              the time complexity for searching an element is logarithmic, O(log n) because 
+              this is implemented as a balanced binary search tree.*/
             std::set<int> TheContainer;
 
             /*Vectors that store pointers to the elements of the container based on specific iterator requirements.*/
@@ -23,10 +29,10 @@ namespace ariel {
             bool isPrime(int element); //for the prime iterator
 
         public:
-            MagicalContainer();
-            void addElement(int element);
-            void removeElement(int element);
-            int size() const {return TheContainer.size();}
+            MagicalContainer(); // default constructor.
+            void addElement(int element); // add element method
+            void removeElement(int element); // remove element method
+            int size() const {return TheContainer.size();} //inline implement for the size
             
         
 

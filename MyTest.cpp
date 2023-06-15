@@ -51,11 +51,12 @@ TEST_CASE("Test 2 - Iterator Sorted") {
 
 TEST_CASE("Test 3 - Iterator SideCross") {
 	MagicalContainer mc; //creating empty instance of MagicalContainer.
-	mc.addElement(3); //add 3.
+	mc.addElement(2); //add 2.
 	mc.addElement(4); //add 4.
-	mc.addElement(2); // add 2.
+	mc.addElement(3); // add 3.
 
 	MagicalContainer::SideCrossIterator crossIter(mc); // creating instance of side cross iterator.
+    //this iterator return one element from the start and one from the end and so on..
 
 	CHECK_EQ(*crossIter, 2);//checking if the first element returned by the pointer to iterator is 2.
 	++crossIter; // point to the next.
