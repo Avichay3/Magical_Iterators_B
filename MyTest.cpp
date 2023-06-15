@@ -14,21 +14,21 @@ TEST_CASE("Test 1 - MagicalContainer::addElement and MagicalContainer::removeEle
 	MagicalContainer mc; //creating empty instance of MagicalContainer.
 	CHECK_EQ(mc.size(), 0); //check that the size is 0 at this point.
 
-	mc.addElement(1);//add the element 1
-	CHECK_EQ(mc.size(), 1);//check the size if correct
+	mc.addElement(1); //add the element 1.
+	CHECK_EQ(mc.size(), 1);//check the size if correct.
 
-	mc.addElement(2);//add
-	mc.addElement(3);//add
+	mc.addElement(2);//add.
+	mc.addElement(3);//add.
 
-	CHECK_EQ(mc.size(), 3); //check size if correct
+	CHECK_EQ(mc.size(), 3); //check size if correct.
 
-	mc.removeElement(2); //removing element
-	CHECK_EQ(mc.size(), 2); // check size after remove
+	mc.removeElement(2); //removing element.
+	CHECK_EQ(mc.size(), 2); // check size after remove.
 
-	mc.removeElement(1);
-	mc.removeElement(3);
+	mc.removeElement(1); //removing element.
+	mc.removeElement(3); //removing element.
 
-	CHECK_EQ(mc.size(), 0);
+	CHECK_EQ(mc.size(), 0); //check the size if correct.
 }
 
 
