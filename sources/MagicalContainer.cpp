@@ -97,20 +97,17 @@ void MagicalContainer::removeElement(int element) {
 
 	SideCrossIter.reserve(TheContainer.size());
 
-	if (size() == 1)
+	if (size() == 1){
 		SideCrossIter.push_back(AscendingIter.at(0));
-
-	else
-	{
+	}
+	else{
 		size_t start = 0, end = (size_t)(size() - 1);
-
-		while (start <= end && end != 0)
-		{
+		while (start <= end && end != 0){
 			SideCrossIter.push_back(AscendingIter.at(start));
 
-			if (start != end)
+			if (start != end){
 				SideCrossIter.push_back(AscendingIter.at(end));
-
+			}
 			start++;
 			end--;
 		}
