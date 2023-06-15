@@ -55,21 +55,40 @@ namespace ariel {
                 AscendingIterator (MagicalContainer *container, std::size_t index): _container(container), _index(index){}//inline implement
                 ~AscendingIterator() override = default; //destructor
 
+
+                /*operators overloading*/
                 AscendingIterator &operator=(const AscendingIterator &ascen_iter_other);
+
+                //compares the current ascending iterator object with another InterfaceIterator
+                //overriding a virtual function from the base class 'InterfaceIterator'.
                 bool operator==(const InterfaceIterator &other) const override;
+
+                //same thing as before but return the oposite
                 bool operator!=(const InterfaceIterator &other) const override;
+
+                //compare the positions of two iterator objects.
                 bool operator<(const InterfaceIterator &other) const override;
                 bool operator>(const InterfaceIterator &other) const override;
+
+                //compare the current ascending iterator with the other from the same object.
                 bool operator==(const AscendingIterator &other) const;
                 bool operator!=(const AscendingIterator &other) const;
+
+                //if the current iterator is positioned at an index smaller/greater than the other iterator index.
                 bool operator<(const AscendingIterator &other) const;
                 bool operator>(const AscendingIterator &other) const;
-                int operator*() const;
-                AscendingIterator& operator++();
 
+                //allows accessing the value pointed to by the ascending iterator.
+                int operator*() const;
+
+                AscendingIterator& operator++(); //pre increment operator oveload
+
+                //returns a new AscendingIterator object that points to the beginning of the container.
                 AscendingIterator begin() {//inline implementation
 					return AscendingIterator(_container, 0);
 				}
+
+                //returns a new AscendingIterator object that points to the end of the container.
                 AscendingIterator end() const { //inline implementation
 					return AscendingIterator(_container, _container->AscendingIter.size());
 				}
