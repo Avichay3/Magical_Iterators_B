@@ -7,7 +7,7 @@ using namespace std;
 using namespace ariel;
 
 
-
+//check if a given integer is prime number.
 bool MagicalContainer::isPrime(int element){
     if(element <= 1){ return false; }
     for(int i=2; i < element; i++){
@@ -19,16 +19,18 @@ bool MagicalContainer::isPrime(int element){
 }
 
 
-MagicalContainer::MagicalContainer(){}
-
 void MagicalContainer::addElement(int element) {
 	auto in = TheContainer.insert(element);
-
-	if (in.second)
-	{
-		// Handle prime order - O(n) in this case, as we need to find the correct place to insert the element.
-		if (isPrime(element))
-		{
+	if (in.second){
+		// handle prime order, in this case, we need to find the correct place to insert the element.
+		if (isPrime(element)){
+			//find the appropriate position to insert the element in the PrimeIter vector using lower_bound which
+			//find the first position where a given value can be inserted while maintaining the sorted order.
+			//this function take 4 parameters:
+			//  1) first element pointer.
+			//  2) end element pointer.
+			//	3) pointer to the element that should be inserted.
+			//  4) lambda function to determine the position of the element
 			auto index_to_insert = lower_bound(PrimeIter.begin(), PrimeIter.end(), &(*in.first), [](const int *a, const int *b) {
 				return *a < *b;
 			});
