@@ -14,11 +14,13 @@ namespace ariel {
         cross order, and prime numbers only, respectively."
         */
             std::set<int> TheContainer;
+
+            /*Vectors that store pointers to the elements of the container based on specific iterator requirements.*/
             std::vector<const int*> AscendingIter;
             std::vector<const int*> PrimeIter;
             std::vector<const int*> SideCrossIter;
 
-            bool isPrime(int element);
+            bool isPrime(int element); //for the prime iterator
 
         public:
             MagicalContainer();
