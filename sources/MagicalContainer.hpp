@@ -95,14 +95,16 @@ namespace ariel {
         };
 
 
+
+        /*the exact same comments as the previous iterator buut just for the prime iterator*/
         class PrimeIterator : public InterfaceIterator {
             private:
                 MagicalContainer* _container;
                 std::size_t _index;
             public:
-                PrimeIterator();//implemented
+                PrimeIterator();
                 PrimeIterator(MagicalContainer &container): _container(&container), _index(0) {}
-                PrimeIterator(const PrimeIterator& prime_iter);//implemented
+                PrimeIterator(const PrimeIterator& prime_iter);
                 PrimeIterator(MagicalContainer *container, std::size_t index): _container(container), _index(index){} //inline implement
                 ~PrimeIterator() override = default;
 
@@ -114,8 +116,8 @@ namespace ariel {
                 bool operator==(const PrimeIterator &other) const;
                 bool operator!=(const PrimeIterator &other) const;
                 bool operator<(const PrimeIterator &other) const;
-                bool operator>(const PrimeIterator &other) const; //implemented
-                PrimeIterator& operator++();//implemented
+                bool operator>(const PrimeIterator &other) const; 
+                PrimeIterator& operator++();
                 int operator*() const;
 
                 PrimeIterator begin(){
@@ -127,6 +129,9 @@ namespace ariel {
         };
 
 
+
+
+        /*the exact same comments as the previous iterator buut just for the side cross iterator*/
         class SideCrossIterator : public InterfaceIterator {
             private:
                 MagicalContainer* _container;
