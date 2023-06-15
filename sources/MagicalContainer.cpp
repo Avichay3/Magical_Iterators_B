@@ -34,31 +34,23 @@ void MagicalContainer::addElement(int element) {
 			auto index_to_insert = lower_bound(PrimeIter.begin(), PrimeIter.end(), &(*in.first), [](const int *a, const int *b) {
 				return *a < *b;
 			});
-
-			PrimeIter.insert(index_to_insert, &(*in.first));
+			PrimeIter.insert(index_to_insert, &(*in.first)); //insert the element at the index we want
 		}
 
-		// Handle ascending order - O(n) in this case, as we need to find the correct place to insert the element.
+		// handle ascending order,in this case, we need to find the correct place to insert the element.
 		auto index_to_insert = lower_bound(AscendingIter.begin(), AscendingIter.end(), &(*in.first), [](const int *a, const int *b) {
 			return *a < *b;
 		});
-
-		AscendingIter.insert(index_to_insert, &(*in.first));
-
-		// Handle sidecross order - O(n) in this case, as we need to rebuild the vector (Easier than reordering it).
+		AscendingIter.insert(index_to_insert, &(*in.first)); //insert the element at the index we want
+		// handle sidecross order,in this case, we need to rebuild the vector (Easier than reordering it).
 		SideCrossIter.clear();
-
 		if (size() == 1)
 			SideCrossIter.push_back(AscendingIter.front());
 
-		else
-		{
+		else{
 			size_t start = 0, end = (size_t)(size() - 1);
-
-			while (start <= end && end != 0)
-			{
+			while (start <= end && end != 0){
 				SideCrossIter.push_back(AscendingIter.at(start));
-
 				if (start != end)
 					SideCrossIter.push_back(AscendingIter.at(end));
 
@@ -76,17 +68,16 @@ void MagicalContainer::addElement(int element) {
 void MagicalContainer::removeElement(int element) {
 	auto it = TheContainer.find(element);
 
-	if (it == TheContainer.end())
-		throw runtime_error("Element not found");
-
-	// Handle prime order - O(n) in this case, as we need to find the element in the vector to remove it.
-	if (isPrime(element))
-	{
+	if (it == TheContainer.end()){
+		throw std::runtime_error("Element not found");
+	}
+	// handle prime order, in this case, we need to find the element in the vector to remove it.
+	if (isPrime(element)){
 		auto it_prime = find(PrimeIter.begin(), PrimeIter.end(), &(*it));
 		PrimeIter.erase(it_prime);
 	}
 
-	// Handle ascending order - O(n) in this case, as we need to find the element in the vector to remove it.
+	// handle ascending order - O(n) in this case, as we need to find the element in the vector to remove it.
 	auto it_ascending = find(AscendingIter.begin(), AscendingIter.end(), &(*it));
 	AscendingIter.erase(it_ascending);
 
